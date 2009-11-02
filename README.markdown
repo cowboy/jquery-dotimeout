@@ -16,7 +16,9 @@ Visit the [project page](http://benalman.com/projects/jquery-dotimeout-plugin/) 
 These working examples, complete with fully commented code, illustrate a few
 ways in which this plugin can be used.
 
-[http://benalman.com/code/projects/jquery-dotimeout/examples/dotimeout/](http://benalman.com/code/projects/jquery-dotimeout/examples/dotimeout/)  
+[http://benalman.com/code/projects/jquery-dotimeout/examples/debouncing/](http://benalman.com/code/projects/jquery-dotimeout/examples/debouncing/)  
+[http://benalman.com/code/projects/jquery-dotimeout/examples/delay-poll/](http://benalman.com/code/projects/jquery-dotimeout/examples/delay-poll/)  
+[http://benalman.com/code/projects/jquery-dotimeout/examples/hoverintent/](http://benalman.com/code/projects/jquery-dotimeout/examples/hoverintent/)
 
 
 ## Support and Testing ##

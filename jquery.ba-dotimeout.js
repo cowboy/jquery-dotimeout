@@ -27,7 +27,9 @@
 // These working examples, complete with fully commented code, illustrate a few
 // ways in which this plugin can be used.
 // 
-// doTimeout - http://benalman.com/code/projects/jquery-dotimeout/examples/dotimeout/
+// Debouncing      - http://benalman.com/code/projects/jquery-dotimeout/examples/debouncing/
+// Delays, Polling - http://benalman.com/code/projects/jquery-dotimeout/examples/delay-poll/
+// Hover Intent    - http://benalman.com/code/projects/jquery-dotimeout/examples/hoverintent/
 // 
 // About: Support and Testing
 // 
