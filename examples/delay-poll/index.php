@@ -137,7 +137,7 @@ $(function(){
   
   <?= $shell['script6']; ?>
   
-  $('a.start, a.force, a.cancel').click(function(e){
+  $('a[href=#]').click(function(e){
     e.preventDefault();
   });
   

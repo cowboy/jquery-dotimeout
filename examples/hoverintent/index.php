@@ -149,6 +149,7 @@ ul.item li a {
   color: #000 !important;
   text-decoration: none;
   border: 1px solid #ddd;
+  width: 26px;
   padding: 1px;
 }
 
