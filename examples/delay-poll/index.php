@@ -187,12 +187,13 @@ ob_end_clean();
 
 ob_start();
 ?>
+<?= $shell['donate'] ?>
 
 <p>
   Here are some simple delay and polling loop examples, utilizing doTimeout. For more usage examples, also see the <a href="http://benalman.com/projects/jquery-dotimeout-plugin/">doTimeout plugin page</a>.
 </p>
 
-<div class="test">
+<div class="test clear">
 
 <h3>Like setTimeout, but better!</h3>
 <pre class="brush:js">

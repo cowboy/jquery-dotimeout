@@ -300,12 +300,13 @@ ob_end_clean();
 
 ob_start();
 ?>
+<?= $shell['donate'] ?>
 
 <p>
   Here are some simple hover intent examples, utilizing doTimeout. For more usage examples, also see the <a href="http://benalman.com/projects/jquery-dotimeout-plugin/">doTimeout plugin page</a>.
 </p>
 
-<div class="test">
+<div class="test clear">
 
 <h3>Hover intent on individual items (250ms delay)</h3>
 <pre class="brush:js">
