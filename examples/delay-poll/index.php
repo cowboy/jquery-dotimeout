@@ -25,13 +25,29 @@ ob_end_clean();
 ob_start();
 ?>
 $('#set_timeout2 a.start').click(function(){
-  // In one second, do something using `this`!
-  $('#set_timeout2 span').doTimeout( 1000, function(){
-    this.html( 'done!' );
-  });
+  // Execute .css( 'color', 'blue' ), now then in
+  // one second, execute .css( 'color', 'blue' ).
+  $('#set_timeout2 span')
+    .css( 'color', 'red' )
+    .doTimeout( 1000, function(){
+      this.css( 'color', 'blue' )
+    });
 });
 <?
 $shell['script2'] = ob_get_contents();
+ob_end_clean();
+
+ob_start();
+?>
+$('#set_timeout2a a.start').click(function(){
+  // Execute .css( 'color', 'blue' ), now then in
+  // one second, execute .css( 'color', 'blue' ).
+  $('#set_timeout2a span')
+    .css( 'color', 'red' )
+    .doTimeout( 1000, 'css', 'color', 'blue' );
+});
+<?
+$shell['script2a'] = ob_get_contents();
 ob_end_clean();
 
 ob_start();
@@ -129,6 +145,8 @@ $(function(){
   
   <?= $shell['script2']; ?>
   
+  <?= $shell['script2a']; ?>
+  
   <?= $shell['script3']; ?>
   
   <?= $shell['script4']; ?>
@@ -216,11 +234,26 @@ ob_start();
 <?= htmlspecialchars( $shell['script2'] ); ?>
 </pre>
 <div id="set_timeout2">
-  <p>Set value: <span>???</span>, <span>???</span>, <span>???</span></p>
-  <p><a href="#" class="start single">Start</a></p>
+  <p>Set value: <span>Some text</span>, <span>more text</span></p>
+  <p><a href="#" class="start">Start</a></p>
   <p>
     Much like setTimeout or the example above, except that in the callback, `this`
     refers to the jQuery object. Chainable, too!
+  </p>
+</div>
+
+<div class="hr"><hr></div>
+
+<h3>An even easier syntax!</h3>
+<pre class="brush:js">
+<?= htmlspecialchars( $shell['script2a'] ); ?>
+</pre>
+<div id="set_timeout2a">
+  <p>Set value: <span>Some text</span>, <span>more text</span></p>
+  <p><a href="#" class="start">Start</a></p>
+  <p>
+    Much like setTimeout or the example above, except with a much more concise
+    "string method" syntax. Still chainable!
   </p>
 </div>
 

@@ -12,7 +12,7 @@ var arr, expected, i, elems = $('<div/><div/><div/><div/><div/><div/><div/>');
 // $.doTimeout
 // ======================================================================== //
  
-function test1( a, b ) {
+var test1 = $.test1_m = function ( a, b ) {
   arr.push( i, a, b );
   if ( ++i < a ) {
     return true;
@@ -42,6 +42,32 @@ test("$.doTimeout no id, polling", function() {
   arr.push( $.doTimeout( 100, test1, 2, 3 ) );
 });
  
+test("$.doTimeout no id, polling (string method)", function() {
+  arr = [];
+  i = 0;
+  expected = [
+    undefined,
+    0, 2, 3,
+    1, 2, 3
+  ];
+  
+  stop();
+  arr.push( $.doTimeout( 100, 'test1_m', 2, 3 ) );
+});
+ 
+test("$.doTimeout with id, polling (string method)", function() {
+  arr = [];
+  i = 0;
+  expected = [
+    undefined,
+    0, 2, 3,
+    1, 2, 3
+  ];
+  
+  stop();
+  arr.push( $.doTimeout( 'foo', 100, 'test1_m', 2, 3 ) );
+});
+ 
 test("$.doTimeout with id, polling", function() {
   arr = [];
   i = 0;
@@ -53,6 +79,19 @@ test("$.doTimeout with id, polling", function() {
   
   stop();
   arr.push( $.doTimeout( 'foo', 100, test1, 2, 3 ) );
+});
+ 
+test("$.doTimeout with id, polling (string method)", function() {
+  arr = [];
+  i = 0;
+  expected = [
+    undefined,
+    0, 2, 3,
+    1, 2, 3
+  ];
+  
+  stop();
+  arr.push( $.doTimeout( 'foo', 100, 'test1_m', 2, 3 ) );
 });
  
 test("$.doTimeout with id, canceled", function() {
@@ -80,7 +119,7 @@ test("$.doTimeout with id, canceled", function() {
   }, 100);
   
 });
- 
+
 test("$.doTimeout with id, polling, forced (false)", function() {
   arr = [];
   i = 0;
@@ -153,7 +192,7 @@ test("simultaneous $.doTimeout calls", function() {
     undefined, undefined
   ];
   
-  function test3( a ) {
+  var test3 = $.test3_m = function( a ) {
     arr.push( a );
     same( this, window );
     return a === 5;
@@ -161,9 +200,9 @@ test("simultaneous $.doTimeout calls", function() {
   
   stop();
   arr.push( $.doTimeout( 'foo', 300, test3, 1 ) );
-  arr.push( $.doTimeout( 'bar', 400, test3, 2 ) );
+  arr.push( $.doTimeout( 'bar', 400, 'test3_m', 2 ) );
   arr.push( $.doTimeout( 'baz', 500, test3, 3 ) );
-  arr.push( $.doTimeout( 'foo', 600, test3, 4 ) );
+  arr.push( $.doTimeout( 'foo', 600, 'test3_m', 4 ) );
   arr.push( $.doTimeout( 'xyz', 80,  test3, 5 ) );
   
   arr.push( $.doTimeout( 200, function( a ){
@@ -185,7 +224,7 @@ test("simultaneous $.doTimeout calls", function() {
 // $.fn.doTimeout
 // ======================================================================== //
  
-function test1a( a, b ) {
+var test1a = $.fn.test1a_m = function( a, b ) {
   arr.push( i, this.length, a, b );
   if ( ++i < a ) {
     return true;
@@ -215,6 +254,19 @@ test("$.fn.doTimeout no id, polling", function() {
   arr.push( elems.doTimeout( 100, test1a, 2, 3 ).length );
 });
  
+test("$.fn.doTimeout no id, polling (string method)", function() {
+  arr = [];
+  i = 0;
+  expected = [
+    7,
+    0, 7, 2, 3,
+    1, 7, 2, 3
+  ];
+  
+  stop();
+  arr.push( elems.doTimeout( 100, 'test1a_m', 2, 3 ).length );
+});
+
 test("$.fn.doTimeout with id, polling", function() {
   arr = [];
   i = 0;
@@ -226,6 +278,19 @@ test("$.fn.doTimeout with id, polling", function() {
   
   stop();
   arr.push( elems.doTimeout( 'foo', 100, test1a, 2, 3 ).length );
+});
+ 
+test("$.fn.doTimeout with id, polling (string method)", function() {
+  arr = [];
+  i = 0;
+  expected = [
+    7,
+    0, 7, 2, 3,
+    1, 7, 2, 3
+  ];
+  
+  stop();
+  arr.push( elems.doTimeout( 'foo', 100, 'test1a_m', 2, 3 ).length );
 });
  
 test("$.fn.doTimeout with id, canceled", function() {
@@ -326,7 +391,7 @@ test("simultaneous $.fn.doTimeout calls", function() {
     undefined, undefined
   ];
   
-  function test3a( a ) {
+  var test3a = $.fn.test3a_m = function( a ) {
     arr.push( this.length );
     arr.push( a );
     same( this, elems );
@@ -335,9 +400,9 @@ test("simultaneous $.fn.doTimeout calls", function() {
   
   stop();
   arr.push( elems.doTimeout( 'foo', 300, test3a, 1 ).length );
-  arr.push( elems.doTimeout( 'bar', 400, test3a, 2 ).length );
+  arr.push( elems.doTimeout( 'bar', 400, 'test3a_m', 2 ).length );
   arr.push( elems.doTimeout( 'baz', 500, test3a, 3 ).length );
-  arr.push( elems.doTimeout( 'foo', 600, test3a, 4 ).length );
+  arr.push( elems.doTimeout( 'foo', 600, 'test3a_m', 4 ).length );
   arr.push( elems.doTimeout( 'xyz', 80,  test3a, 5 ).length );
   
   arr.push( elems.doTimeout( 200, function( a ){

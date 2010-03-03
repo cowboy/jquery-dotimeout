@@ -1,15 +1,15 @@
 /*!
- * jQuery doTimeout: Like setTimeout, but better! - v0.4 - 7/15/2009
+ * jQuery doTimeout: Like setTimeout, but better! - v1.0 - 3/3/2010
  * http://benalman.com/projects/jquery-dotimeout-plugin/
  * 
- * Copyright (c) 2009 "Cowboy" Ben Alman
+ * Copyright (c) 2010 "Cowboy" Ben Alman
  * Dual licensed under the MIT and GPL licenses.
  * http://benalman.com/about/license/
  */
 
 // Script: jQuery doTimeout: Like setTimeout, but better!
 //
-// *Version: 0.4, Last updated: 7/15/2009*
+// *Version: 1.0, Last updated: 3/3/2010*
 // 
 // Project Home - http://benalman.com/projects/jquery-dotimeout-plugin/
 // GitHub       - http://github.com/cowboy/jquery-dotimeout/
@@ -18,7 +18,7 @@
 // 
 // About: License
 // 
-// Copyright (c) 2009 "Cowboy" Ben Alman,
+// Copyright (c) 2010 "Cowboy" Ben Alman,
 // Dual licensed under the MIT and GPL licenses.
 // http://benalman.com/about/license/
 // 
@@ -37,12 +37,16 @@
 // tested with, what browsers it has been tested in, and where the unit tests
 // reside (so you can test it yourself).
 // 
-// jQuery Versions - 1.3.2, 1.4.1
-// Browsers Tested - Internet Explorer 6-8, Firefox 2-3.6, Safari 3-4, Chrome, Opera 9.6-10.1.
+// jQuery Versions - 1.3.2, 1.4.2
+// Browsers Tested - Internet Explorer 6-8, Firefox 2-3.6, Safari 3-4, Chrome 4-5, Opera 9.6-10.1.
 // Unit Tests      - http://benalman.com/code/projects/jquery-dotimeout/unit/
 // 
 // About: Release History
 // 
+// 1.0 - (3/3/2010) Callback can now be a string, in which case it will call
+//       the appropriate $.method or $.fn.method, depending on where .doTimeout
+//       was called. Callback must now return `true` (not just a truthy value)
+//       to poll.
 // 0.4 - (7/15/2009) Made the "id" argument optional, some other minor tweaks
 // 0.3 - (6/25/2009) Initial release
 
@@ -68,7 +72,8 @@
   // when it is executed.
   // 
   // If the callback returns true, the doTimeout loop will execute again, after
-  // the delay, creating a polling loop until the callback returns false.
+  // the delay, creating a polling loop until the callback returns a non-true
+  // value.
   // 
   // Note that if an id is not passed as the first argument, this doTimeout will
   // NOT be able to be manually canceled or forced. (for debouncing, be sure to
@@ -94,6 +99,9 @@
   //  delay - (Number) A zero-or-greater delay in milliseconds after which
   //    callback will be executed. 
   //  callback - (Function) A function to be executed after delay milliseconds.
+  //  callback - (String) A jQuery method to be executed after delay
+  //    milliseconds. This method will only poll if it explicitly returns
+  //    true.
   //  force_mode - (Boolean) If true, execute that id's doTimeout callback
   //    immediately and synchronously, continuing any callback return-true
   //    polling loop. If false, execute the callback immediately and
@@ -124,7 +132,8 @@
   // when it is executed.
   // 
   // If the callback returns true, the doTimeout loop will execute again, after
-  // the delay, creating a polling loop until the callback returns false.
+  // the delay, creating a polling loop until the callback returns a non-true
+  // value.
   // 
   // Note that if an id is not passed as the first argument, this doTimeout will
   // NOT be able to be manually canceled or forced (for debouncing, be sure to
@@ -150,6 +159,10 @@
   //  delay - (Number) A zero-or-greater delay in milliseconds after which
   //    callback will be executed. 
   //  callback - (Function) A function to be executed after delay milliseconds.
+  //  callback - (String) A jQuery.fn method to be executed after delay
+  //    milliseconds. This method will only poll if it explicitly returns
+  //    true (most jQuery.fn methods return a jQuery object, and not `true`,
+  //    which allows them to be chained and prevents polling).
   //  force_mode - (Boolean) If true, execute that id's doTimeout callback
   //    immediately and synchronously, continuing any callback return-true
   //    polling loop. If false, execute the callback immediately and
@@ -176,6 +189,9 @@
     var that = this,
       elem,
       data = {},
+      
+      // Allows the plugin to call a string callback method.
+      method_base = jquery_data_key ? $.fn : $,
       
       // Any additional arguments will be passed to the callback.
       args = arguments,
@@ -228,7 +244,14 @@
       // A callback (and delay) were specified. Store the callback reference for
       // possible later use, and then setTimeout.
       data.fn = function( no_polling_loop ) {
-        callback.apply( that, aps.call( args, slice_args ) ) && !no_polling_loop
+        
+        // If the callback value is a string, it is assumed to be the name of a
+        // method on $ or $.fn depending on where doTimeout was executed.
+        if ( typeof callback === 'string' ) {
+          callback = method_base[ callback ];
+        }
+        
+        callback.apply( that, aps.call( args, slice_args ) ) === true && !no_polling_loop
           
           // Since the callback returned true, and we're not specifically
           // canceling a polling loop, do it again!

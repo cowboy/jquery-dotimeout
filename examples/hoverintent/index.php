@@ -12,17 +12,11 @@ $shell['h2'] = 'So, you want an "over" state, but you don\'t want it "just yet."
 
 ob_start();
 ?>
-$('#item-over a')
-  .mouseenter(function(){
-    $(this).doTimeout( 'hover', 250, function(){
-      this.addClass( 'hover' );
-    });
-  })
-  .mouseleave(function(){
-    $(this).doTimeout( 'hover', 250, function(){
-      this.removeClass( 'hover' );
-    });
-  });
+$('#item-over a').hover(function(){
+  $(this).doTimeout( 'hover', 250, 'addClass', 'hover' );
+}, function(){
+  $(this).doTimeout( 'hover', 250, 'removeClass', 'hover' );
+});
 <?
 $shell['script1'] = ob_get_contents();
 ob_end_clean();
