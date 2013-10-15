@@ -1,0 +1,19 @@
+{
+	"name": "Boxer",
+	"version": "1.0",
+	"description": "jQuery doTimeout: Like setTimeout, but better!",
+	"main": [
+		"jquery.ba-dotimeout.min.js"
+	],
+	"ignore": [
+		"*.json",
+		"docs",
+		"examples",
+		"shared",
+		"unit"
+	],
+	"dependencies": {
+		"jquery": ">= 1.7.0"
+	},
+	"devDependencies": {}
+}
