@@ -1,3 +1,5 @@
+Added Bower support: `bower install ba-dotimeout`
+
 # jQuery doTimeout: Like setTimeout, but better! #
 [http://benalman.com/projects/jquery-dotimeout-plugin/](http://benalman.com/projects/jquery-dotimeout-plugin/)
 
